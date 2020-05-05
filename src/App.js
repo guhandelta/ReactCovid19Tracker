@@ -7,7 +7,9 @@ import styles from './App.module.css'
 class App extends React.Component {
 
   state = {
-    data: {}
+    data: {},
+    country: '' //The country data is handles in the App component, so it may be passed to all it child components and the data fetched-
+    //- would be reflected on all the child components, with respect to the country choosen on the UI
   };
 
   async componentDidMount() {
@@ -15,13 +17,21 @@ class App extends React.Component {
     this.setState({ data: fetchedData });
   }
 
+  handleCountrySelection = async (country) => {
+    //Fetch the data
+    const fetchedData = await fetchData(country);
+    //Set the data to the state
+    this.setState({ data: fetchedData, country: country });
+
+  }
+
   render() {
-    const { data } = this.state;
+    const { data, country } = this.state;
     return (
       <div className={styles.container}>
         <Cards data={data} />
-        <CountryPicker />
-        <Chart />
+        <CountryPicker handleCountrySelection={this.handleCountrySelection} />
+        <Chart data={data} country={country} />
       </div>
     )
   }
