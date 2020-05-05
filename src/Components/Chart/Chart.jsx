@@ -4,14 +4,15 @@ import { fetchDailyData } from '../../api/'
 
 import styles from './Chart.module.css'
 
-const Chart = () => {
+const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
     const [dailyData, setDailyData] = useState([]); // Specifying an empty array will make testing empty array, easy
     useEffect(() => { //useEffect() is Synchronous, so can't specify it as async, but can only be made async by defn a async fn() inside
         const dailyDataAPI = async () => { // This can also be defn as self calling a IIFE
             setDailyData(await fetchDailyData());
         }
         dailyDataAPI();
-    });
+    }, []);
+
     const lineChart = (
         dailyData.length ? (// Prevent initial data load errors, as the data would not be available initially
             <Line
@@ -32,9 +33,35 @@ const Chart = () => {
                 }}
             />) : null
     );
+
+    console.log(confirmed, recovered, deaths);
+
+    const barChart = (
+        confirmed ? (
+            <Bar
+                data={{
+                    labels: ['Infected', 'Recovered', 'Deaths'],
+                    datasets: [{
+                        label: 'People',
+                        backgroundColor: [
+                            'rgba(0, 0, 255, 0.5)',
+                            'rgba(0, 255, 0, 0.5)',
+                            'rgba(255, 0, 0, 0.5)'
+                        ],
+                        data: [confirmed.value, recovered.value, deaths.value]
+                    }]
+                }}
+                options={{
+                    legend: { display: false },
+                    title: { display: true, text: `Corona cases in ${country}` },
+                }}
+            />) : null
+
+    );
+
     return (
         <div className={styles.container}>
-            {lineChart}
+            {country ? barChart : lineChart}
         </div>
     )
 }
