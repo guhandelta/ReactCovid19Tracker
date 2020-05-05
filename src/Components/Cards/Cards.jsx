@@ -7,7 +7,7 @@ import styles from './Cards.module.css'
 
 const Cards = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
     if (!confirmed) {
-        return 'Loading.....'
+        return 'Loading.....' // StandBy text during Data Fetch
     }
     return (
         <div className={styles.container}>

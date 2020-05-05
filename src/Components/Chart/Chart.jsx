@@ -8,7 +8,7 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
     const [dailyData, setDailyData] = useState([]); // Specifying an empty array will make testing empty array, easy
     useEffect(() => { //useEffect() is Synchronous, so can't specify it as async, but can only be made async by defn a async fn() inside
         const dailyDataAPI = async () => { // This can also be defn as self calling a IIFE
-            setDailyData(await fetchDailyData());
+            setDailyData(await fetchDailyData()); // For the Charts, the data is sometimes is fetched 
         }
         dailyDataAPI();
     }, []);

@@ -4,7 +4,8 @@ import { NativeSelect, FormControl } from '@material-ui/core'
 import { fetchCountryData } from '../../api'
 import styles from './CountryPicker.module.css'
 
-const CountryPicker = ({ handleCountrySelection }) => {
+const CountryPicker = ({ handleCountrySelection }) => { // Once a country is choosen, teh control goes to the main App.js, which then after-
+    //- updates the country choosen in this components, to all the other components, so the changes are reflected in the UI
 
     const [countryData, setCountryData] = useState([]);
 
